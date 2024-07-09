@@ -29,4 +29,9 @@ class RabbitmqProducerTest {
     void routeSend() {
         rabbitmqProducer.routeSend();;
     }
+
+    @Test
+    void topicSend() {
+        rabbitmqProducer.topicSend();
+    }
 }

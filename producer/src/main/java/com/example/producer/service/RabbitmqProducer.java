@@ -35,4 +35,10 @@ public class RabbitmqProducer {
             rabbitTemplate.convertAndSend("routing-exchange", "key-ccc", "来自路由模式的消息: key-ccc" + i);
         }
     }
+
+    public void topicSend() {
+        rabbitTemplate.convertAndSend("topic-exchange", "aaa.111", "来自主题模式的消息: key: aaa.111");
+        rabbitTemplate.convertAndSend("topic-exchange", "aaa.222", "来自主题模式的消息: key: aaa.222");
+        rabbitTemplate.convertAndSend("topic-exchange", "aaa.xxx.111", "来自主题模式的消息: key: aaa.xxx.111");
+    }
 }

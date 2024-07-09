@@ -58,6 +58,20 @@ public class RabbitmqConsumer {
     /**
      * 主题模式
      */
+    @RabbitListener(queues = "topic-queue1")
+    public void consumerTopicMessage1(String content) {
+        log.info("主题模式, 队列: {}, 收到消息:{}", "topic-queue1", content);
+    }
+
+    @RabbitListener(queues = "topic-queue2")
+    public void consumerTopicMessage2(String content) {
+        log.info("主题模式, 队列: {}, 收到消息:{}", "topic-queue2", content);
+    }
+
+    @RabbitListener(queues = "topic-queue3")
+    public void consumerTopicMessage3(String content) {
+        log.info("主题模式, 队列: {}, 收到消息:{}", "topic-queue3", content);
+    }
 
     /**
      * RPC模式
