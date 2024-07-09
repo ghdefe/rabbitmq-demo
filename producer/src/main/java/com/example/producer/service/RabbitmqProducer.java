@@ -31,11 +31,9 @@ public class RabbitmqProducer {
     }
 
     public void routeSend() {
-        for (int i = 0; i < 5; i++) {
-            rabbitTemplate.convertAndSend("routing-exchange", "key-aaa", "来自路由模式的消息: key-aaa" + i);
-            rabbitTemplate.convertAndSend("routing-exchange", "key-bbb", "来自路由模式的消息: key-bbb" + i);
-            rabbitTemplate.convertAndSend("routing-exchange", "key-ccc", "来自路由模式的消息: key-ccc" + i);
-        }
+        rabbitTemplate.convertAndSend("routing-exchange", "key-aaa", "来自路由模式的消息: key-aaa");
+        rabbitTemplate.convertAndSend("routing-exchange", "key-bbb", "来自路由模式的消息: key-bbb");
+        rabbitTemplate.convertAndSend("routing-exchange", "key-ccc", "来自路由模式的消息: key-ccc");
     }
 
     public void topicSend() {

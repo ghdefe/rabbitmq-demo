@@ -89,6 +89,10 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
 2024-07-09T16:20:59.559+08:00  INFO 20192 --- [consumer1] [ntContainer#4-1] c.e.consumer.service.RabbitmqConsumer    : 工作模式, 消费者-consumer1, 收到消息:来自工作模式的消息: 1
 2024-07-09T16:20:59.563+08:00  INFO 20192 --- [consumer1] [ntContainer#4-1] c.e.consumer.service.RabbitmqConsumer    : 工作模式, 消费者-consumer1, 收到消息:来自工作模式的消息: 3
 ```
+  
+一共发送5条消息, 消费者A-1消费消息[0, 2, 4], 消费者A-2消费消息[1, 3], 可见消息被`均衡`且`不重复`消费.
+  
+
 
 - 发布/订阅模式
 > 消费者A-1
@@ -112,26 +116,41 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
 2024-07-09T16:22:28.781+08:00  INFO 16748 --- [consumer2] [ntContainer#0-1] c.e.consumer2.service.RabbitmqConsumer   : 发布/订阅模式, 消费者-consumer2, 收到消息:来自广播模式的消息: 3
 2024-07-09T16:22:28.782+08:00  INFO 16748 --- [consumer2] [ntContainer#0-1] c.e.consumer2.service.RabbitmqConsumer   : 发布/订阅模式, 消费者-consumer2, 收到消息:来自广播模式的消息: 4
 ```
+  
+  
+一共发送5条消息:
+- 消费者A创建队列1, 5条消息发送到队列1.
+- 消费者B创建队列2, 5条消息发送到队列2.
+因此:
+- 消费者A-1与消费者A-2共同消费队列1, 消费者A-1消费消息[0, 2, 4], 消费者A-2消费消息[1, 3]
+- 消费者B消费队列2, 消费者B消费消息[0, 1, 2, 3, 4]
+  
+
 
 - 路由模式
 > 消费者A-1
 ```log
-2024-07-09T16:23:40.820+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-aaa0
-2024-07-09T16:23:40.822+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-bbb0
-2024-07-09T16:23:40.825+08:00  INFO 22032 --- [consumer1] [ntContainer#2-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue2, 收到消息:来自路由模式的消息: key-ccc0
-2024-07-09T16:23:40.825+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-aaa1
-2024-07-09T16:23:40.825+08:00  INFO 22032 --- [consumer1] [ntContainer#2-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue2, 收到消息:来自路由模式的消息: key-ccc1
-2024-07-09T16:23:40.825+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-bbb1
-2024-07-09T16:23:40.826+08:00  INFO 22032 --- [consumer1] [ntContainer#2-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue2, 收到消息:来自路由模式的消息: key-ccc2
-2024-07-09T16:23:40.826+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-aaa2
-2024-07-09T16:23:40.828+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-bbb2
-2024-07-09T16:23:40.829+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-aaa3
-2024-07-09T16:23:40.830+08:00  INFO 22032 --- [consumer1] [ntContainer#2-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue2, 收到消息:来自路由模式的消息: key-ccc3
-2024-07-09T16:23:40.830+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-bbb3
-2024-07-09T16:23:40.830+08:00  INFO 22032 --- [consumer1] [ntContainer#2-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue2, 收到消息:来自路由模式的消息: key-ccc4
-2024-07-09T16:23:40.831+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-aaa4
-2024-07-09T16:23:40.831+08:00  INFO 22032 --- [consumer1] [ntContainer#8-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-bbb4
+2024-07-09T16:40:32.643+08:00  INFO 4888 --- [consumer1] [ntContainer#1-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-aaa
+2024-07-09T16:40:32.643+08:00  INFO 4888 --- [consumer1] [ntContainer#2-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue2, 收到消息:来自路由模式的消息: key-ccc
+2024-07-09T16:40:32.646+08:00  INFO 4888 --- [consumer1] [ntContainer#1-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-bbb
 ```
+  
+创建2个队列: 
+- `routing-queue1`
+- `routing-queue2`
+  
+
+创建3条绑定规则: 
+- `key-aaa`绑定到`routing-queue1`
+- `key-bbb`绑定到`routing-queue1`
+- `key-ccc`绑定到`routing-queue2`
+  
+一共发送3条消息:
+- 消息1: 键为`key-aaa`, 发送到绑定的队列`routing-queue1`
+- 消息2: 键为`key-bbb`, 发送到绑定的队列`routing-queue1`
+- 消息3: 键为`key-ccc`, 发送到绑定的队列`routing-queue2`
+  
+
 
 - 主题模式
 > 消费者A-1
@@ -145,6 +164,26 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
 2024-07-09T16:24:32.374+08:00  INFO 22032 --- [consumer1] [ntContainer#3-1] c.e.consumer.service.RabbitmqConsumer    : 主题模式, 队列: topic-queue1, 收到消息:来自主题模式的消息: key: aaa.xxx.111
 2024-07-09T16:24:32.374+08:00  INFO 22032 --- [consumer1] [ntContainer#7-1] c.e.consumer.service.RabbitmqConsumer    : 主题模式, 队列: topic-queue3, 收到消息:来自主题模式的消息: key: aaa.xxx.111
 ```
+
+
+
+创建3个队列:
+- `topic-queue1`
+- `topic-queue2`
+- `topic-queue3`
+
+
+创建3条绑定规则:
+1. `#`绑定到`topic-queue1`
+2. `aaa.*`绑定到`topic-queue1`
+3. `aaa.#`绑定到`topic-queue2`
+
+一共发送3条消息:
+- 消息1: 键为`aaa.111`, 命中: [`规则1`, `规则2`, `规则3`]. 发送到绑定的队列[`topic-queue1`,`topic-queue2`,`topic-queue3`]
+- 消息2: 键为`aaa.222`, 命中: [`规则1`, `规则2`, `规则3`]. 发送到绑定的队列[`topic-queue1`,`topic-queue2`,`topic-queue3`]
+- 消息3: 键为`aaa.xxx.111`,  命中: [`规则1`, `规则3`]. 发送到绑定的队列[`topic-queue1`, `topic-queue3`]
+  
+
 
 - RPC模式
 > 消费者A-1
