@@ -2,7 +2,7 @@
 
 ## RabbitMQ六种模式示例
 
-[参考](https://www.cnblogs.com/jeremylai7/p/16527309.html)
+源码: [ghdefe/rabbitmq-demo](https://github.com/ghdefe/rabbitmq-demo)
 
 此项目分别演示六种模式: 简单模式、工作模式、发布/订阅模式、路由模式、主题模式、RPC模式
 
@@ -157,3 +157,8 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
 2024-07-09T16:24:42.993+08:00  INFO 14384 --- [producer] [           main] .l.DirectReplyToMessageListenerContainer : SimpleConsumer [queue=amq.rabbitmq.reply-to, index=0, consumerTag=amq.ctag-YATKTxnPooF75FI1aIFwiw identity=5ad57e90] started
 2024-07-09T16:24:43.025+08:00  INFO 14384 --- [producer] [           main] c.e.producer.service.RabbitmqProducer    : 生产者收到回调消息: 消费者: 收到消息:来自RPC模式的消息
 ```
+
+
+## 附  
+
+[参考文章](https://www.cnblogs.com/jeremylai7/p/16527309.html)
