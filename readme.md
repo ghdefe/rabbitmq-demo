@@ -63,9 +63,9 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
 生产消息: 根据需要演示的模式启动对应的单元测试即可生产对应模式的消息. `producer/src/test/java/com/example/producer/ProducerApplicationTests.java`
 
 
-### 效果
+### 6. 演示效果
 
-- 简单模式
+#### 简单模式
 
 > 消费者A
 ```log
@@ -76,7 +76,7 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
 2024-07-09T16:19:59.246+08:00  INFO 22032 --- [consumer1] [ntContainer#6-1] c.e.consumer.service.RabbitmqConsumer    : 简单模式, 收到消息:来自简单模式的消息: 4
 ```
 
-- 工作模式
+#### 工作模式
 > 消费者A-1
 ```log
 2024-07-09T16:20:59.524+08:00  INFO 22032 --- [consumer1] [ntContainer#4-1] c.e.consumer.service.RabbitmqConsumer    : 工作模式, 消费者-consumer1, 收到消息:来自工作模式的消息: 0
@@ -94,7 +94,7 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
   
 
 
-- 发布/订阅模式
+#### 发布/订阅模式
 > 消费者A-1
 ```log
 2024-07-09T16:22:28.737+08:00  INFO 22032 --- [consumer1] [ntContainer#1-1] c.e.consumer.service.RabbitmqConsumer    : 发布/订阅模式, 消费者-consumer1, 收到消息:来自广播模式的消息: 0
@@ -127,7 +127,7 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
   
 
 
-- 路由模式
+#### 路由模式
 > 消费者A-1
 ```log
 2024-07-09T16:40:32.643+08:00  INFO 4888 --- [consumer1] [ntContainer#1-1] c.e.consumer.service.RabbitmqConsumer    : 路由模式, 队列: routing-queue1, 收到消息:来自路由模式的消息: key-aaa
@@ -152,7 +152,7 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
   
 
 
-- 主题模式
+#### 主题模式
 > 消费者A-1
 ```log
 2024-07-09T16:24:32.369+08:00  INFO 22032 --- [consumer1] [ntContainer#7-1] c.e.consumer.service.RabbitmqConsumer    : 主题模式, 队列: topic-queue3, 收到消息:来自主题模式的消息: key: aaa.111
@@ -185,7 +185,7 @@ docker run --rm --name rabbitmq -e RABBITMQ_MANAGEMENT_ALLOW_WEB_ACCESS=true -e 
   
 
 
-- RPC模式
+#### RPC模式
 > 消费者A-1
 ```log
 2024-07-09T16:24:43.012+08:00  INFO 22032 --- [consumer1] [ntContainer#0-1] c.e.consumer.service.RabbitmqConsumer    : RPC模式, 收到消息:来自RPC模式的消息
