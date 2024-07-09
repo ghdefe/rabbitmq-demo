@@ -76,4 +76,9 @@ public class RabbitmqConsumer {
     /**
      * RPC模式
      */
+    @RabbitListener(queuesToDeclare = @Queue("rpc-queue"))
+    public String consumerRpcMessage(String content) {
+        log.info("RPC模式, 收到消息:{}", content);
+        return "消费者: 收到消息:" + content;
+    }
 }

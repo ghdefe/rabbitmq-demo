@@ -23,15 +23,4 @@ public class RabbitmqConsumer {
         log.info("发布/订阅模式, 消费者-{}, 收到消息:{}", appName, content);
     }
 
-    /**
-     * 路由模式
-     */
-
-    /**
-     * 主题模式
-     */
-
-    /**
-     * RPC模式
-     */
 }

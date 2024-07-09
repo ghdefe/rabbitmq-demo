@@ -34,4 +34,9 @@ class RabbitmqProducerTest {
     void topicSend() {
         rabbitmqProducer.topicSend();
     }
+
+    @Test
+    void rpcSend() {
+        rabbitmqProducer.rpcSend();
+    }
 }
