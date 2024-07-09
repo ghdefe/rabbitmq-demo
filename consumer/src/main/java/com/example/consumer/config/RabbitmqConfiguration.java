@@ -8,21 +8,32 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitmqConfiguration {
 
-//    @Bean
-//    public Exchange directExchange() {
-//        return ExchangeBuilder.directExchange("directExchange")
-//                .durable(true)
-//                .build();
-//    }
-//
-//    @Bean
-//    public Queue queue1() {
-//        return new Queue("queue1");
-//    }
-//
-//    @Bean
-//    public Binding binding(@Qualifier("queue1") Queue queue1, @Qualifier("directExchange") Exchange directExchange) {
-//        return BindingBuilder.bind(queue1).to(directExchange).with("hello").noargs();
-//    }
+    /**
+     * 广播交换机
+     */
+    @Bean
+    public Exchange fanoutExchange() {
+        return ExchangeBuilder.fanoutExchange("fanout-exchange")
+                .durable(true)
+                .build();
+    }
+
+    /**
+     * 广播队列1
+     * @return
+     */
+    @Bean
+    public Queue fanout1Queue() {
+        return QueueBuilder.durable("fanout-queue1")
+                .build();
+    }
+
+    /**
+     * 将广播队列绑定到广播交换机
+     */
+    @Bean
+    public Binding fanoutBinding(@Qualifier("fanout1Queue") Queue fanout1Queue, @Qualifier("fanoutExchange") Exchange fanoutExchange) {
+        return BindingBuilder.bind(fanout1Queue).to(fanoutExchange).with("").noargs();
+    }
 
 }

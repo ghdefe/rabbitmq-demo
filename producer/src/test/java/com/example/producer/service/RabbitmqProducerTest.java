@@ -19,4 +19,14 @@ class RabbitmqProducerTest {
     void workSend() {
         rabbitmqProducer.workSend();
     }
+
+    @Test
+    void fanoutSend() {
+        rabbitmqProducer.fanoutSend();
+    }
+
+    @Test
+    void routeSend() {
+        rabbitmqProducer.routeSend();;
+    }
 }

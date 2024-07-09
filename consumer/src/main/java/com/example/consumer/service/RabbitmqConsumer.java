@@ -37,10 +37,23 @@ public class RabbitmqConsumer {
     /**
      * 发布/订阅模式
      */
+    @RabbitListener(queues = "fanout-queue1")
+    public void consumerFanoutMessage1(String content) {
+        log.info("发布/订阅模式, 消费者-{}, 收到消息:{}", appName, content);
+    }
 
     /**
      * 路由模式
      */
+    @RabbitListener(queues = "routing-queue1")
+    public void consumerRoutingMessage1(String content) {
+        log.info("路由模式, 队列: {}, 收到消息:{}", "routing-queue1", content);
+    }
+
+    @RabbitListener(queues = "routing-queue2")
+    public void consumerRoutingMessage2(String content) {
+        log.info("路由模式, 队列: {}, 收到消息:{}", "routing-queue2", content);
+    }
 
     /**
      * 主题模式
