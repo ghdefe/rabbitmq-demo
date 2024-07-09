@@ -1,11 +1,16 @@
-package com.example.consumer2.config;
+package com.example.consumer.config;
+
 import org.springframework.amqp.core.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 发布/订阅模式
+ */
 @Configuration
-public class RabbitmqConfiguration {
+public class FanoutRabbitmqConfiguration {
+
     /**
      * 广播交换机
      */
@@ -21,8 +26,8 @@ public class RabbitmqConfiguration {
      * @return
      */
     @Bean
-    public Queue fanout2Queue() {
-        return QueueBuilder.durable("fanout-queue2")
+    public Queue fanout1Queue() {
+        return QueueBuilder.durable("fanout-queue1")
                 .build();
     }
 
@@ -30,7 +35,8 @@ public class RabbitmqConfiguration {
      * 将广播队列绑定到广播交换机
      */
     @Bean
-    public Binding fanoutBinding(@Qualifier("fanout2Queue") Queue fanout1Queue, @Qualifier("fanoutExchange") Exchange fanoutExchange) {
+    public Binding fanoutBinding(@Qualifier("fanout1Queue") Queue fanout1Queue, @Qualifier("fanoutExchange") Exchange fanoutExchange) {
         return BindingBuilder.bind(fanout1Queue).to(fanoutExchange).with("").noargs();
     }
+
 }
